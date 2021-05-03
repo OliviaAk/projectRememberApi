@@ -1,6 +1,5 @@
 const Hero = require("../../models/hero.model");
-const { cloudinary } = require('../../../utils/cloudinary');
-
+const { cloudinary } = require("../../../utils/cloudinary");
 
 const getHeroes = async (req, res) => {
 	try {
@@ -10,7 +9,6 @@ const getHeroes = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
-
 
 const editCards = async (req, res) => {
 	const { id } = req.params;
@@ -55,20 +53,21 @@ const createHero = async (req, res) => {
 	}
 };
 
-const uploadImages = async(req,res)=>{
-	try{
+const uploadImages = async (req, res) => {
+	try {
 		const fileStr = req.body.data;
-        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-            upload_preset: 'dashboard',
-        });
-        res.send({imageId:uploadResponse.public_id});
-	}
-	catch (err){
+		const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+			upload_preset: "dashboard",
+		});
+		res.send({ imageId: uploadResponse.public_id });
+	} catch (err) {
 		console.error(err);
-        res.status(500).json({ err: 'Something went wrong' });
+		res.status(500).json({ err: "Something went wrong" });
 	}
-}
+};
 module.exports = {
 	editCards,
 	uploadImages,
-getHeroes,createHero};
+	getHeroes,
+	createHero,
+};
