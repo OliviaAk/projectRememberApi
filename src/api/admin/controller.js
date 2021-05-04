@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const Admin = require("../../models/admin.model");
 const JWToken = require("../../models/token.model");
 
-
 const loginAdmin = async (req, res) => {
 	try {
 		const { login, password } = req.body;
@@ -23,11 +22,9 @@ const loginAdmin = async (req, res) => {
 const createAdmin = async (req, res) => {
 	try {
 		const { login, password } = req.body;
-		const newCard = new Admin({login, password});
+		const newCard = new Admin({ login, password });
 		const card = await newCard.save();
-		return res.status(201).json(card);		
-
-
+		return res.status(201).json(card);
 	} catch (err) {
 		return res.status(500).json(err);
 	}

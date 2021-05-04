@@ -10,41 +10,17 @@ const getHeroes = async (req, res) => {
 	}
 };
 
-const editCards = async (req, res) => {
-	const { id } = req.params;
-	const { isEdit } = req.body;
-	try {
-		const editCard = await Card.updateOne(
-			{ eventId: id },
-			{ $set: { isEdit } },
-		);
-		if (editCard.ok) {
-			res.status(200).json({ eventId: id, isEdit });
-		}
-	} catch (err) {
-		res.status(500).json({ message: err });
-	}
-};
-
 const createHero = async (req, res) => {
 	try {
-		const {
-			name,
-			dateBirth,
-			description,
-			image,
-			fullTextOne,
-			fullTextTwo,
-			fullTextTree,
-		} = req.body;
+		const { name, dateBirth, description, image, text, url } = req.body;
 		const newHero = new Hero({
 			name,
 			dateBirth,
 			description,
 			image,
-			fullTextOne,
-			fullTextTwo,
-			fullTextTree,
+			text,
+			url,
+			isPublish: false,
 		});
 		const hero = await newHero.save();
 		return res.status(201).json(hero);
@@ -61,12 +37,10 @@ const uploadImages = async (req, res) => {
 		});
 		res.send({ imageId: uploadResponse.public_id });
 	} catch (err) {
-		console.error(err);
 		res.status(500).json({ err: "Something went wrong" });
 	}
 };
 module.exports = {
-	editCards,
 	uploadImages,
 	getHeroes,
 	createHero,

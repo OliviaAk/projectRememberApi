@@ -1,9 +1,8 @@
 const express = require("express");
 const passport = require("passport");
-const {  loginWithOauth , } = require("./controller");
+const { loginWithOauth } = require("./controller");
 
 const route = express.Router();
-
 
 route.get(
 	"/facebook",

@@ -1,5 +1,6 @@
 const express = require("express");
-const {  loginAdmin } = require("./controller");
+const { loginAdmin } = require("./controller");
+
 const route = express.Router();
-route.post('/', loginAdmin);
+route.post("/", loginAdmin);
 module.exports = route;
