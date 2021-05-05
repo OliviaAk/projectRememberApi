@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require("passport");
-const { loginWithOauth } = require("./controller");
+const { loginWithFacebook, loginWithGoogle } = require("./controller");
 
 const route = express.Router();
 
@@ -14,6 +14,19 @@ route.get(
 	passport.authenticate("facebook", {
 		session: false,
 	}),
-	loginWithOauth,
+	loginWithFacebook,
+); 
+
+route.get(
+	"/google",
+	passport.authenticate("google", { scope: "email", session: false }),
+);
+
+route.get(
+	"/google/callback",
+	passport.authenticate("google", {
+		session: false,
+	}),
+	loginWithGoogle,
 );
 module.exports = route;

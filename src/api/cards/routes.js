@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const {
 	getCards,
 	createCard,
@@ -10,7 +11,6 @@ const {
 } = require("./controller");
 
 const route = express.Router();
-const passport = require("passport");
 
 route.get("/", getCards);
 route.post("/", uploadImages);

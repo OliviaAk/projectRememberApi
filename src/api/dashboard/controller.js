@@ -9,7 +9,17 @@ const getHeroes = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
-
+const getHero = async (req, res) => {
+	const heroId = req.params.id;
+	try {
+		if (heroId) {
+			const selectedHero = await Hero.findById({ _id: heroId });
+			return res.status(200).json(selectedHero);
+		}
+	} catch (err) {
+		res.send(err);
+	}
+};
 const createHero = async (req, res) => {
 	try {
 		const { name, dateBirth, description, image, text, url } = req.body;
@@ -44,4 +54,5 @@ module.exports = {
 	uploadImages,
 	getHeroes,
 	createHero,
+	getHero,
 };
