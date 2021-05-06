@@ -22,7 +22,15 @@ const getHero = async (req, res) => {
 };
 const createHero = async (req, res) => {
 	try {
-		const { name, dateBirth, description, image, text, url } = req.body;
+		const {
+			name,
+			dateBirth,
+			description,
+			image,
+			text,
+			url,
+			isPublish,
+		} = req.body;
 		const newHero = new Hero({
 			name,
 			dateBirth,
@@ -30,7 +38,7 @@ const createHero = async (req, res) => {
 			image,
 			text,
 			url,
-			isPublish: false,
+			isPublish,
 		});
 		const hero = await newHero.save();
 		return res.status(201).json(hero);
