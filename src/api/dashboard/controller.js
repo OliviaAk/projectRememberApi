@@ -58,9 +58,48 @@ const uploadImages = async (req, res) => {
 		res.status(500).json({ err: "Something went wrong" });
 	}
 };
+
+const editHero = async (req, res) => {
+	try {
+		const _id = req.params.id;
+		const { url, text, name, dateBirth, image, isPublish } = req.body;
+		if (_id) {
+			const formatId = String(_id);
+			const updatedEvent = await Hero.updateOne(
+				{ _id: formatId },
+				{ $set: { url, text, name, dateBirth, image, isPublish } },
+			);
+			if (updatedEvent) {
+				const event = await Hero.findById({ _id: formatId });
+				return res.status(200).json(event);
+			}
+		}
+		res.sendStatus(404);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
+
+const deleteHero = async (req, res) => {
+	try {
+		const _id = req.params.id;
+		if (_id) {
+			const formatId = String(_id);
+			await Hero.deleteOne({ _id: formatId });
+
+			return res.status(200).json(formatId);
+		}
+		res.sendStatus(404);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
+
 module.exports = {
 	uploadImages,
 	getHeroes,
 	createHero,
+	editHero,
 	getHero,
+	deleteHero,
 };
