@@ -9,6 +9,14 @@ const getHeroes = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
+const getPublishHeroes = async (req, res) => {
+	try {
+		const heroes = await Hero.find({ isPublish: true });
+		return res.status(200).json(heroes);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
 const getHero = async (req, res) => {
 	const heroId = req.params.id;
 	try {
@@ -95,6 +103,26 @@ const deleteHero = async (req, res) => {
 	}
 };
 
+const updateHero = async (req, res) => {
+	const idHero = req.params.id;
+	const { isPublish } = req.body;
+	try {
+		if (idHero) {
+			const formatId = String(idHero);
+			const updatedEvent = await Hero.updateOne(
+				{ _id: formatId },
+				{ $set: { isPublish } },
+			);
+			if (updatedEvent) {
+				const event = await Hero.findById({ _id: formatId });
+				return res.status(200).json(event);
+			}
+		}
+		res.sendStatus(404);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
 module.exports = {
 	uploadImages,
 	getHeroes,
@@ -102,4 +130,6 @@ module.exports = {
 	editHero,
 	getHero,
 	deleteHero,
+	updateHero,
+	getPublishHeroes,
 };

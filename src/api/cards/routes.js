@@ -8,6 +8,7 @@ const {
 	getCardsInfo,
 	getPublishCards,
 	updateCard,
+	deleteCard,
 } = require("./controller");
 
 const route = express.Router();
@@ -21,5 +22,8 @@ route.post(
 );
 route.get("/info", getCardsInfo);
 route.get("/publish", getPublishCards);
-route.patch("/info/:id", updateCard);
+route.patch("/:id", updateCard);
+route.patch("/info/:id", editCards);
+route.delete("/info/:id", deleteCard);
+
 module.exports = route;

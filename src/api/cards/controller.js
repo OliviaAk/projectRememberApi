@@ -33,18 +33,23 @@ const getCardsInfo = async (req, res) => {
 };
 
 const editCards = async (req, res) => {
-	const { id } = req.params;
-	const { isEdit } = req.body;
 	try {
-		const editCard = await Card.updateOne(
-			{ eventId: id },
-			{ $set: { isEdit } },
-		);
-		if (editCard.ok) {
-			res.status(200).json({ eventId: id, isEdit });
+		const _id = req.params.id;
+		const { description, name, dateBirth, image, isPublish } = req.body;
+		if (_id) {
+			const formatId = String(_id);
+			const updatedEvent = await Card.updateOne(
+				{ _id: formatId },
+				{ $set: { description, name, dateBirth, image, isPublish } },
+			);
+			if (updatedEvent) {
+				const event = await Card.findById({ _id: formatId });
+				return res.status(200).json(event);
+			}
 		}
+		res.sendStatus(404);
 	} catch (err) {
-		res.status(500).json({ message: err });
+		res.status(500).json(err);
 	}
 };
 
@@ -99,6 +104,20 @@ const updateCard = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
+const deleteCard = async (req, res) => {
+	try {
+		const _id = req.params.id;
+		if (_id) {
+			const formatId = String(_id);
+			await Card.deleteOne({ _id: formatId });
+
+			return res.status(200).json(formatId);
+		}
+		res.sendStatus(404);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
 module.exports = {
 	editCards,
 	createCard,
@@ -107,4 +126,5 @@ module.exports = {
 	getPublishCards,
 	getCardsInfo,
 	updateCard,
+	deleteCard,
 };
