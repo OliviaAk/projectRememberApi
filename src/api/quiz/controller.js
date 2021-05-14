@@ -17,6 +17,17 @@ const getQuestions = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
+const getCurrentQuestions = async (req, res) => {
+	try {
+		const selectedQuiz = req.params.id;
+		console.log(selectedQuiz);
+		const heroes = await Question.find({ quizId: selectedQuiz });
+		console.log(heroes);
+		return res.status(200).json(heroes);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
 
 const createQuiz = async (req, res) => {
 	try {
@@ -128,4 +139,5 @@ module.exports = {
 	deleteQuiz,
 	editQuestions,
 	deleteQuestion,
+	getCurrentQuestions,
 };

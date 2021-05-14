@@ -8,6 +8,7 @@ const {
 	deleteQuiz,
 	editQuestions,
 	deleteQuestion,
+	getCurrentQuestions,
 } = require("./controller");
 
 const route = express.Router();
@@ -18,6 +19,7 @@ route.patch("/:id", editQuiz);
 route.delete("/:id", deleteQuiz);
 route.post("/questions", createQuestion);
 route.get("/questions", getQuestions);
+route.get("/questions/:id", getCurrentQuestions);
 route.patch("/questions/:id", editQuestions);
 route.delete("/questions/:id", deleteQuestion);
 module.exports = route;
