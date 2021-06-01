@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 const commentSchema = new Schema({
-	text: { type: String },
+	comment: { type: String },
 	date: { type: Date },
-	userId: { type: String },
 	isPublish: { type: Boolean },
 });
 

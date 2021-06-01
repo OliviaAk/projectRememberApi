@@ -1,4 +1,4 @@
-const Comment = require("../../models/card.model");
+const Comment = require("../../models/comments.model");
 
 const getComments = async (req, res) => {
 	try {
@@ -32,13 +32,11 @@ const editComments = async (req, res) => {
 
 const createComment = async (req, res) => {
 	try {
-		const { text, date } = req.body;
-		const userId = req.user._id;
+		const { comment, date } = req.body;
 		const newCard = new Comment({
-			text,
+			comment,
 			date,
-			isPublish: false,
-			userId,
+			isPublish: true,
 		});
 		const card = await newCard.save();
 		return res.status(201).json(card);
