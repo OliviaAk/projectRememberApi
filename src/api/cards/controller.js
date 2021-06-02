@@ -31,6 +31,17 @@ const getCardsInfo = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
+const getCard = async (req, res) => {
+	const cardId = req.params.id;
+	try {
+		if (cardId) {
+			const selectedHero = await Card.findById({ _id: cardId });
+			return res.status(200).json(selectedHero);
+		}
+	} catch (err) {
+		res.send(err);
+	}
+};
 
 const editCards = async (req, res) => {
 	try {
@@ -127,4 +138,5 @@ module.exports = {
 	getCardsInfo,
 	updateCard,
 	deleteCard,
+	getCard,
 };

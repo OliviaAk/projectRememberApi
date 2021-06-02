@@ -8,6 +8,7 @@ const {
 	getCardsInfo,
 	getPublishCards,
 	updateCard,
+	getCard,
 	deleteCard,
 } = require("./controller");
 
@@ -21,6 +22,8 @@ route.post(
 	createCard,
 );
 route.get("/info", getCardsInfo);
+route.get("/info/:id", getCard);
+
 route.get("/publish", getPublishCards);
 route.patch("/:id", updateCard);
 route.patch("/info/:id", editCards);
