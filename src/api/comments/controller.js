@@ -1,9 +1,24 @@
 const Comment = require("../../models/comments.model");
+const { cloudinary } = require("../../../utils/cloudinary");
 
 const getComments = async (req, res) => {
 	try {
 		const heroes = await Comment.find();
 		return res.status(200).json(heroes);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
+
+const getImages = async (req, res) => {
+	try {
+		const { resources } = await cloudinary.search
+			.expression("folder:comments")
+			.sort_by("public_id", "desc")
+			.max_results(30)
+			.execute();
+		const publicIds = resources.map((file) => file.public_id);
+		res.send(publicIds);
 	} catch (err) {
 		return res.status(500).json(err);
 	}
@@ -32,11 +47,13 @@ const editComments = async (req, res) => {
 
 const createComment = async (req, res) => {
 	try {
-		const { comment, date } = req.body;
+		const { comment, date, image, link } = req.body;
 		const newCard = new Comment({
 			comment,
 			date,
+			image,
 			isPublish: true,
+			link,
 		});
 		const card = await newCard.save();
 		return res.status(201).json(card);
@@ -59,4 +76,20 @@ const deleteComments = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
-module.exports = { getComments, editComments, deleteComments, createComment };
+
+const uploadImages = async (req, res) => {
+	try {
+		const fileStr = req.body.data;
+		const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+			upload_preset: "comments",
+		});
+		res.send({ imageId: uploadResponse.public_id });
+	} catch (err) {
+		res.status(500).json({ err: "Something went wrong" });
+	}
+};
+
+module.exports = {
+ getComments,
+ editComments,
+ deleteComments, createComment , uploadImages};
