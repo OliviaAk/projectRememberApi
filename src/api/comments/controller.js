@@ -24,15 +24,34 @@ const getImages = async (req, res) => {
 	}
 };
 
-const editComments = async (req, res) => {
+const updateComment = async (req, res) => {
 	try {
-		const _id = req.params.id;
-		const { text, date, isPublish } = req.body;
+		const { link, comment, isPublish, _id } = req.body;
 		if (_id) {
 			const formatId = String(_id);
 			const updatedEvent = await Comment.updateOne(
 				{ _id: formatId },
-				{ $set: { text, date, isPublish } },
+				{ $set: { link, comment, isPublish } },
+			);
+			if (updatedEvent) {
+				const event = await Comment.findById({ _id: formatId });
+				return res.status(200).json(event);
+			}
+		}
+		res.sendStatus(404);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
+const editComments = async (req, res) => {
+	try {
+		const _id = req.params.id;
+		const { isPublish } = req.body;
+		if (_id) {
+			const formatId = String(_id);
+			const updatedEvent = await Comment.updateOne(
+				{ _id: formatId },
+				{ $set: { isPublish } },
 			);
 			if (updatedEvent) {
 				const event = await Comment.findById({ _id: formatId });
@@ -68,7 +87,6 @@ const deleteComments = async (req, res) => {
 		if (_id) {
 			const formatId = String(_id);
 			await Comment.deleteOne({ _id: formatId });
-
 			return res.status(200).json(formatId);
 		}
 		res.sendStatus(404);
@@ -92,4 +110,4 @@ const uploadImages = async (req, res) => {
 module.exports = {
  getComments,
  editComments,
- deleteComments, createComment , uploadImages};
+ deleteComments, createComment , uploadImages, updateComment};
