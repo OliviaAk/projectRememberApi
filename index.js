@@ -20,7 +20,7 @@ const passport = require("passport");
 const router = require("./src/routes");
 require("./src/middleware/authPassport");
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3001;
 const url =
 	"mongodb+srv://dbData:1q2w3e4r5t6y@clusterproject.q8eml.mongodb.net/Remember";
 app.use(express.urlencoded({ extended: true, limit: "250mb" }));
