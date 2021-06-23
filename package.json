@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development && node index.js --unhandled-rejections=warn",
-    "server": "cross-env NODE_ENV=development && nodemon index.js",
+    "server": "nodemon index.js",
     "lint": "eslint --fix .",
     "lint-check": "eslint ."
   },
