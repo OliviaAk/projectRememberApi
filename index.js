@@ -1,4 +1,11 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
+const path = require('path')
+dotenv.config();
+if (process.env.NODE_ENV === 'development') {
+	dotenv.config({ path: path.join(__dirname,  '.env.development') })
+}
+
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -13,7 +20,7 @@ const passport = require("passport");
 const router = require("./src/routes");
 require("./src/middleware/authPassport");
 
-const PORT = 3001;
+const PORT = process.env.PORT || 80;
 const url =
 	"mongodb+srv://dbData:1q2w3e4r5t6y@clusterproject.q8eml.mongodb.net/Remember";
 app.use(express.urlencoded({ extended: true, limit: "250mb" }));
