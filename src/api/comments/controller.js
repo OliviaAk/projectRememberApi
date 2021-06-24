@@ -66,13 +66,14 @@ const editComments = async (req, res) => {
 
 const createComment = async (req, res) => {
 	try {
-		const { comment, date, image, link } = req.body;
+		const { comment, date, image, link, userId } = req.body;
 		const newCard = new Comment({
 			comment,
 			date,
 			image,
 			isPublish: true,
 			link,
+			userId
 		});
 		const card = await newCard.save();
 		return res.status(201).json(card);
